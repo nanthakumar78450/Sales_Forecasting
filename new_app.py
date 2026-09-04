@@ -19,11 +19,11 @@ st.set_page_config(
 # FILE PATHS
 # ==============================================================
 
-MODEL_FILE = "final_catboost_sales_model.pkl"
+MODEL_FILE = "final_xgboost_sales_model.pkl"
 
 DATA_FILE = "Sales_Forcasting_Dataset_Corrected.xlsx"
 
-FEATURE_FILE = "feature_columns.pkl"
+FEATURE_FILE = "xgboost_feature_columns.pkl"
 
 
 # ==============================================================
@@ -154,8 +154,8 @@ except FileNotFoundError as e:
 Make sure these files are in the same folder:
 
 new_app.py
-final_catboost_sales_model.pkl
-feature_columns.pkl
+final_xgboost_sales_model.pkl
+xgboost_feature_columns.pkl
 Sales_Forcasting_Dataset_Corrected.xlsx
 """
     )
@@ -1650,11 +1650,11 @@ def forecast_store_product_sales(
 # ==============================================================
 
 st.title(
-    "📈 Sales Forecasting - CatBoost Model"
+    "📈 Sales Forecasting - XGBoost Model"
 )
 
 st.caption(
-    "CatBoost-powered future sales forecasting "
+    "XGBoost-powered future sales forecasting "
     "with Product, Store and Region-wise analysis"
 )
 
