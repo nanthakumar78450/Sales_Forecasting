@@ -2356,20 +2356,30 @@ if product_run_button:
         )
 
 
+        # ----------------------------------------------------------
+        # IMPORTANT:
+        # A Date + Type combination can occur more than once when
+        # the historical dataset contains duplicate dates.
+        # DataFrame.pivot() requires unique index/column pairs and
+        # therefore raises:
+        # "Index contains duplicate entries, cannot reshape"
+        #
+        # pivot_table() safely aggregates duplicate Date + Type rows.
+        # ----------------------------------------------------------
         chart_data = (
-
             combined
-
-            .pivot(
-
+            .groupby(
+                ["Date", "Type"],
+                as_index=False
+            )["Units"]
+            .sum()
+            .pivot_table(
                 index="Date",
-
                 columns="Type",
-
-                values="Units"
-
+                values="Units",
+                aggfunc="sum"
             )
-
+            .sort_index()
         )
 
 
@@ -2820,22 +2830,21 @@ if store_run_button:
         )
 
 
+        # ----------------------------------------------------------
+        # IMPORTANT:
+        # Use pivot_table instead of pivot because duplicate
+        # Date + Product combinations can exist in the forecast
+        # result. pivot_table safely aggregates them.
+        # ----------------------------------------------------------
         store_product_chart = (
-
             store_forecast_df
-
-            .pivot(
-
+            .pivot_table(
                 index="Date",
-
                 columns="Product",
-
-                values="Predicted_Units_Sold"
-
+                values="Predicted_Units_Sold",
+                aggfunc="sum"
             )
-
             .sort_index()
-
         )
 
 
